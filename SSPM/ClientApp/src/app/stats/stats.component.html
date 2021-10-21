@@ -1,0 +1,159 @@
+<div class="ui-g-12 componentContainer">
+
+    <div class="ui-g-6 ui-sm-12">
+        <!-- <p-accordion [multiple]="true"> -->
+        <p-panel header="Shitjet Sot">
+
+            <p-table [autoLayout]="true" [loading]="!transactedProductList.data" [responsive]="true" [totalRecords]="transactedProductList.count"
+                [lazy]="true" (onLazyLoad)="onSalesLazyLoad($event)" [paginator]="true" [rows]="10"
+                [rowsPerPageOptions]="[5,10,20,50,100]" [value]="transactedProductList.data">
+
+                <ng-template pTemplate="header">
+                    <tr>
+
+                        <th>
+                            <div class="ui-g-12"> Modeli </div>
+
+                        </th>
+
+                        <th>
+                            <div class="ui-g-12"> Sasia </div>
+                        </th>
+                        <th>
+                            <div class="ui-g-12"> Cmimi </div>
+                        </th>
+                        <th>
+                            <div class="ui-g-12"> Total </div>
+                        </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-transactedProduct let-i="rowIndex">
+                    <tr>
+
+                        <td> {{transactedProduct.model}}</td>
+                        <td style="text-align: right"> {{transactedProduct.transactionQuantity}}</td>
+                        <td style="text-align: right">
+                            {{transactedProduct.transactionPrice | number:'1.0-2'}} €</td>
+                        <!-- <td [style.background]="transactedProduct.transaction.transactionType == 2  ? '#dc3545' : '#073669'"
+                                            style="color: #ffff;font-weight:bolder;text-align: right">
+                                            {{transactedProduct.transactionPrice * transactedProduct.transactionQuantity}} €
+                                        </td> -->
+
+                        <td>
+                            <i class="fa fa-arrow-up" style="color:GREEN"></i>
+                            {{(transactedProduct.transactionPrice * transactedProduct.transactionQuantity) |
+                            number:'1.0-2'}} €
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="11">
+                            Nuk eshte gjetur asnje rekord
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="ui-g">
+                        <div class="ui-g-4" style="text-align:left">
+                            Numri i rekordeve: {{transactedProductList.count}}
+                        </div>
+                        <div class="ui-g-8" style="text-align:right">
+                            Total :<span style="color: #073669"> {{transactedProductList.totalSalesGains |
+                                number:'1.0-2'}} €</span><br>
+                            <!-- Furnizim: <span style="color: red"> {{transactedProductList.totalSupplySpendings}} €</span><br>
+                                            Bilanci:<span *ngIf="transactedProductList.totalBalance < 0" style="color: red; font-weight: bolder">
+                                                {{transactedProductList.totalBalance}}
+                                                € </span>
+                                            <span *ngIf="transactedProductList.totalBalance > -1" style="color: green;font-weight: bolder">
+                                                {{transactedProductList.totalBalance}} €
+                                            </span> -->
+                        </div>
+                    </div>
+                </ng-template>
+            </p-table>
+        </p-panel>
+        <!-- </p-accordion> -->
+
+        <br>
+        <p-panel header="Servisimet Sot">
+
+
+            <p-table [autoLayout]="true" [loading]="!servicingsList.data" [responsive]="true" [totalRecords]="servicingsList.count"
+                [lazy]="true" (onLazyLoad)="onServicingLazyLoad($event)" [paginator]="true" [rows]="10"
+                [rowsPerPageOptions]="[5,10,20,50,100]" [value]="servicingsList.data">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>
+                            <div class="ui-g-12"> Pershkrimi </div>
+
+                        <th>
+                            <div class="ui-g-12"> Klienti </div>
+                        </th>
+                        <th>
+                            <div class="ui-g-12"> Pagesa </div>
+                        </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-i="rowIndex">
+                    <tr>
+                        <td> {{product.description}}</td>
+                        <td> {{product.client}}</td>
+                        <td style="font-weight: bold; text-align: right"> {{product.servicePrice | number:'1.0-2'}} €</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="4">
+                            Nuk eshte gjetur asnje rekord
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="ui-g">
+                        <div class="ui-g-4" style="text-align:left">
+                            Numri i rekordeve: {{servicingsList.count}}
+                        </div>
+                        <div class="ui-g-8" style="text-align:right">
+
+                            Total: {{servicingsList.totalBalance}} €
+
+                        </div>
+                    </div>
+                </ng-template>
+            </p-table>
+        </p-panel>
+        <!-- </p-accordion> -->
+    </div>
+
+    <div class="ui-g-6 ui-sm-12">
+        <!-- <p-accordion [multiple]="true"> -->
+
+
+        <p-panel header="Statistikat Shitje-Furnizim">
+            <div class="ui-g">
+                <div class="ui-g-6">
+                    <p-chart type="doughnut" [options]="options" height="200" [data]="data"></p-chart>
+                </div>
+                <div class="ui-g-6">
+                    <p-chart type="pie" [options]="options1" height="200" [data]="data1"></p-chart>
+                </div>
+            </div>
+        </p-panel>
+        <br>
+        <p-panel header="Agjenda">
+            <!-- <p>Display event : {{displayEvent | json}}</p> -->
+            <div *ngIf="calendarOptions">
+                <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"
+                    (eventResize)="updateEvent($event.detail)" (eventDrop)="updateEvent($event.detail)"></ng-fullcalendar>
+            </div>
+        </p-panel>
+
+
+
+    </div>
+
+</div>

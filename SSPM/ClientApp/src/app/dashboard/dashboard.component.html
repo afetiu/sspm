@@ -1,0 +1,71 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+
+    <mat-toolbar class="toolbarTitle">Menu
+       <div  *ngIf="drawer.opened" style="width:100%; text-align: right">
+        <mat-icon style="cursor:pointer;" (click)="drawer.toggle()">chevron_left</mat-icon>
+
+      </div>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="['/dashboard/stats']">
+        <mat-icon class="menuMatIcon">home</mat-icon> Home
+      </a>
+      <a mat-list-item [routerLink]="['/dashboard/productlist']">
+        <mat-icon class="menuMatIcon">format_list_bulleted</mat-icon> Produktet
+      </a>
+      <a *ngIf="loggedInRoleName == 'Admin'" mat-list-item [routerLink]="['/dashboard/supply']">
+        <mat-icon class="menuMatIcon">library_add</mat-icon> Furnizim
+      </a>
+      <a mat-list-item [routerLink]="['/dashboard/sale']">
+        <mat-icon class="menuMatIcon">monetization_on</mat-icon> Shitje
+      </a>
+
+      <a mat-list-item [routerLink]="['/dashboard/servicinglist']">
+        <mat-icon class="menuMatIcon">build</mat-icon> Servisim
+      </a>
+
+      
+      <a mat-list-item [routerLink]="['/dashboard/transactionlist']">
+        <mat-icon class="menuMatIcon">cached</mat-icon> Qarkullimi
+      </a>
+
+      <a mat-list-item [routerLink]="['/dashboard/transactedproductlist']">
+        <mat-icon class="menuMatIcon">history</mat-icon> Produktet e qarkulluara
+      </a>
+
+ 
+      <a *ngIf="loggedInRoleName == 'Admin'"  mat-list-item [routerLink]="['/dashboard/administration']">
+        <mat-icon class="menuMatIcon">settings</mat-icon> Administrimi
+      </a>
+
+      <a *ngIf="loggedInRoleName == 'Admin'" mat-list-item [routerLink]="['/dashboard/userlist']">
+        <mat-icon class="menuMatIcon">people</mat-icon> Menagjo Perdoruesit
+      </a>
+
+
+
+      
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+          <mat-icon *ngIf="!drawer.opened" style="cursor:pointer; margin-right:10px;" (click)="drawer.toggle()">menu</mat-icon>
+  
+      <span>SSPM</span>
+      <div style="width:100%; text-align: right">
+        <div>{{loggedInUsername}} </div>
+          <!-- {{loggedInUsername}} -->
+        <mat-icon class="logoutButton" style="cursor:pointer; margin-right:10px;" (click)="onLogOut()">logout</mat-icon>
+
+      </div>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<p-confirmDialog style="width:100%" acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog>
+<p-toast position="top-center"></p-toast>

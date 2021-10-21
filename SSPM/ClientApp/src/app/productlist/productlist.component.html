@@ -1,0 +1,226 @@
+<div class="ui-g-12 componentContainer">
+
+  <div class="ui-g-12 ui-sm-12">
+    <p-accordion>
+      <p-accordionTab [selected]="false" header="Shto produkt te ri">
+
+        <form #f name="f" class=" ui-g ui-fluid">
+            <div class="ui-g-2 ui-sm-12">
+                <span class="ui-float-label">
+                  <input #newProductModel="ngModel" [(ngModel)]="newProduct.barcode" name="newProductBarcode" type="text"
+                    pInputText required (keyup.enter)="onNewProductSave()">
+                  <label for="newProductBarcode">Barkodi</label>
+                </span>
+              </div>
+          <div class="ui-g-2 ui-sm-12">
+            <span class="ui-float-label">
+              <input #newProductModel="ngModel" [(ngModel)]="newProduct.model" name="newProductModel" type="text"
+                pInputText required (keyup.enter)="onNewProductSave()">
+              <label for="newProductDescription">Modeli</label>
+            </span>
+          </div>
+          <div class="ui-g-2 ui-sm-12">
+            <p-dropdown [showClear]="true" [style]="{'width':'100%'}" [options]="brandSelectItemList" placeholder="Firma"
+              #newProductBrand="ngModel" name="newProductBrand" [(ngModel)]="newProduct.brandId" required></p-dropdown>
+          </div>
+
+          <div class="ui-g-2 ui-sm-12">
+              <p-dropdown [showClear]="true" [style]="{'width':'100%'}" [options]="supplierSelectItemList" placeholder="Furnizuesi"
+                #newProductSupplier="ngModel" name="newProductSupplier" [(ngModel)]="newProduct.supplierId" required></p-dropdown>
+            </div>
+
+          <div class="ui-g-2 ui-sm-12">
+            <p-dropdown [showClear]="true" [style]="{'width':'100%'}" [options]="categorySelectItemList" placeholder="Kategoria"
+              #newProductCategory="ngModel" name="newProductCategory" [(ngModel)]="newProduct.categoryId" required></p-dropdown>
+          </div>
+
+
+          <div class="ui-g-2 ui-sm-12">
+            <span class="ui-float-label">
+              <input #newProductQuantity="ngModel" [(ngModel)]="newProduct.quantity" name="newProductQuantity" type="text"
+                pInputText required (keyup.enter)="onNewProductSave()">
+              <label for="newProductQuantity">Sasia</label>
+            </span>
+          </div>
+
+          <div class="ui-g-2 ui-sm-12">
+            <span class="ui-float-label">
+              <input #newProductPrice="ngModel" [(ngModel)]="newProduct.salePrice" name="newProductPrice" type="text"
+                pInputText required (keyup.enter)="onNewProductSave()">
+              <label for="newProductPrice">Cmimi i shitjes</label>
+              <!-- <span class="ui-inputgroup-addon">€</span> -->
+            </span>
+          </div>
+
+          <div class="ui-g-2 ui-sm-12">
+            <span class="ui-float-label">
+              <input #newProductPrice="ngModel" [(ngModel)]="newProduct.supplyPrice" name="newProductPrice" type="text"
+                pInputText required (keyup.enter)="onNewProductSave()">
+              <label for="newProductPrice">Cmimi i furnizimit</label>
+              <!-- <span class="ui-inputgroup-addon">€</span> -->
+            </span>
+          </div>
+
+          
+          <div class="ui-g-6 ui-sm-12">
+              <span class="ui-float-label">
+                <input #newProductDescription="ngModel" [(ngModel)]="newProduct.description" name="newProductDescription"
+                  type="text" pInputText required (keyup.enter)="onNewProductSave()">
+                <label for="newProductDescription">Pershkrim</label>
+              </span>
+            </div>
+
+          <div class="ui-g-2 ui-sm-12">
+            <button pButton type="button" style="width:100%" [disabled]="!newProductModel.valid ||!newProductBrand.valid ||!newProductCategory.valid ||!newProductPrice.valid ||!newProductQuantity.valid"
+              (click)="onNewProductSave()" label="Ruaj" iconPos="center"></button>
+          </div>
+        </form>
+
+
+
+
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+
+
+  <div class="ui-g-12 ui-sm-12">
+    <!-- <p-accordion> -->
+    <p-panel header="Te gjitha produktet">
+
+      <p-table [autoLayout]="true" [loading]="!productsList.data" [responsive]="true" [totalRecords]="productsList.count" [lazy]="true"
+        (onLazyLoad)="onLazyLoad($event)" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]"
+        [value]="productsList.data">
+
+        <ng-template pTemplate="header">
+          <tr>
+              <th>
+                  <div class="ui-g-12 "> Data (dd/mm/yyyy)</div> 
+                  <div class="ui-g-12 ui-g ui-fluid">
+                    <div class="ui-g-6">
+      
+                      <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[1].value"
+                        [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Prej"
+                        dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+                    </div>
+                    <div class="ui-g-6">
+      
+                      <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[2].value"
+                        [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Deri"
+                        dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+                     </div>
+                  </div>
+                </th>
+            <th>
+                <div class="ui-g-12"> Barkodi </div>
+                <div class="ui-g-12 ui-g ui-fluid">
+                  <input class="tableFilterInput"  pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[3].value"
+                    #nfmFilter="ngModel" placeholder="Filtro">
+                </div>
+              </th>
+            <th>
+              <div class="ui-g-12"> Modeli </div>
+              <div class="ui-g-12 ui-g ui-fluid">
+                <input class="tableFilterInput"  pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[4].value"
+                  #nfmFilter="ngModel" placeholder="Filtro">
+              </div>
+            </th>
+
+            <th>
+              <div class="ui-g-12"> Firma </div>
+              <div class="ui-g-12 ">
+                <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                  (onChange)="onSearch()" [options]="brandSelectItemList" placeholder="Filtro" [(ngModel)]="filter.filterItems[5].value"></p-dropdown>
+              </div>
+            </th>
+
+            <th>
+                <div class="ui-g-12"> Furnizuesi </div>
+                <div class="ui-g-12 ">
+                  <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                    (onChange)="onSearch()" [options]="supplierSelectItemList" placeholder="Filtro" [(ngModel)]="filter.filterItems[6].value"></p-dropdown>
+                </div>
+              </th>
+
+
+            <th>
+              <div class="ui-g-12"> Lloji </div>
+              <div class="ui-g-12  ">
+                <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                  (onChange)="onSearch()" [options]="categorySelectItemList" placeholder="Filtro" [(ngModel)]="filter.filterItems[7].value"></p-dropdown>
+              </div>
+            </th>
+
+            <th>
+              <div class="ui-g-12"> Pershkrim </div>
+
+            </th>
+            <th style="width:10%">
+              <div class="ui-g-12"> Sasia </div>
+            </th>
+
+            <th style="width:10%;">
+              <div class="ui-g-12"> Cmimi i Furnizimit</div>
+            </th>
+
+            <th style="width:10%;">
+              <div class="ui-g-12"> Cmimi i Shitjes </div>
+            </th>
+
+            <th style="width:5%">
+              <div class="ui-g-12"> Fshij </div>
+            </th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+          <tr [style.background]="product.quantity < 1  ? 'rgba(164, 3, 3, 0.040)' : inherit">
+            <td>{{product.dateInserted | date: 'dd/MM/yyyy HH:mm'}}</td>
+            <td>
+                <span class="ui-column-title">Barkodi</span>
+                {{product.barcode}}
+              </td>
+            <td>
+              <span class="ui-column-title">Modeli</span>
+              {{product.model}}
+            </td>
+           
+            <td> <span class="ui-column-title">Firma</span>{{product.brand.name}}</td>
+            <td> <span class="ui-column-title">Firma</span>{{product.supplier.name}}</td>
+            <td> <span class="ui-column-title">Klasifikimi</span>{{product.category.name}}</td>
+            <td> <span class="ui-column-title">Pershkrimi</span>{{product.description}}</td>
+            <td style="font-weight: bold"> <span class="ui-column-title">Sasia</span>{{product.quantity}}</td>
+            <td style="font-weight: bold"> <span class="ui-column-title">Cmimi per cope</span>{{product.supplyPrice}} €</td>
+            <td style="font-weight: bold"> <span class="ui-column-title">Cmimi per cope</span>{{product.salePrice}} €</td>
+
+            <td style=" width:5%;text-align: center">
+              <div *ngIf="product.quantity > 0" style="color:#E8E7E7;cursor:not-allowed">
+                <mat-icon>delete_outline</mat-icon>
+              </div>
+              <div *ngIf="product.quantity < 1" style="color:rgb(140, 4, 4);cursor: pointer;">
+                <mat-icon (click)="onProductDelete(product.id)">delete</mat-icon>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="10">
+              Nuk eshte gjetur asnje rekord
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          Total: {{productsList.count}}
+        </ng-template>
+      </p-table>
+
+    </p-panel>
+    <!-- </p-accordion> -->
+  </div>
+</div>
+<!-- 
+<p-confirmDialog style="width:100%" acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog>
+
+<p-toast position="top-center"></p-toast> -->

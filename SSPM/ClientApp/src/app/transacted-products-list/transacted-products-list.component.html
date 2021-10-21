@@ -1,0 +1,158 @@
+<div class="ui-g-12 componentContainer">
+
+
+  <div class="ui-g-12 ui-sm-12">
+    <!-- <p-accordion> -->
+    <!-- <p-panel header="Furnizimet"> -->
+
+    <p-table   [loading]="!transactedProductList.data" [responsive]="true" [totalRecords]="transactedProductList.count"
+      [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]"
+      [value]="transactedProductList.data">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            <div class="ui-g-12"> IdQ</div>
+            <div class="ui-g-12 ui-g ui-fluid">
+              <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[0].value"
+                #nfmFilter="ngModel" placeholder="Id">
+            </div>
+          </th>
+          <th>
+            <div class="ui-g-12 "> Data (dd/mm/yyyy)</div> 
+            <div class="ui-g-12 ui-g ui-fluid">
+              <div class="ui-g-6">
+
+                <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[1].value"
+                  [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Prej"
+                  dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+              </div>
+              <div class="ui-g-6">
+
+                <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[2].value"
+                  [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Deri"
+                  dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+               </div>
+            </div>
+          </th>
+
+          <th>
+            <div class="ui-g-12"> Tipi</div>
+            <div class="ui-g-12">
+              <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                (onChange)="onSearch()" [options]="transactionTypeList" placeholder="Filtro" [(ngModel)]="filter.filterItems[3].value"></p-dropdown>
+            </div>
+          </th>
+
+          <th>
+            <div class="ui-g-12"> Barkodi </div>
+            <div class="ui-g-12 ui-g ui-fluid">
+              <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[4].value"
+                #nfmFilter="ngModel" placeholder="Filtro">
+            </div>
+          </th>
+
+          <th>
+            <div class="ui-g-12"> Modeli </div>
+            <div class="ui-g-12 ui-g ui-fluid">
+              <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[5].value"
+                #nfmFilter="ngModel" placeholder="Filtro">
+            </div>
+          </th>
+          <th>
+            <div class="ui-g-12"> Furnizuesi </div>
+            <div class="ui-g-12">
+              <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                (onChange)="onSearch()" [options]="supplierSelectItemList" placeholder="Filtro" [(ngModel)]="filter.filterItems[6].value"></p-dropdown>
+            </div>
+          </th>
+
+          <th>
+            <div class="ui-g-12"> Firma </div>
+            <div class="ui-g-12">
+              <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                (onChange)="onSearch()" [options]="brandSelectItemList" placeholder="Filtro" [(ngModel)]="filter.filterItems[7].value"></p-dropdown>
+            </div>
+          </th>
+          <th>
+            <div class="ui-g-12"> Kategoria </div>
+            <div class="ui-g-12">
+              <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                (onChange)="onSearch()" [options]="categorySelectItemList" placeholder="Filtro" [(ngModel)]="filter.filterItems[8].value"></p-dropdown>
+            </div>
+          </th>
+          <th>
+            <div class="ui-g-12"> Sasia </div>
+          </th>
+          <th>
+            <div class="ui-g-12"> Cmimi </div>
+          </th>
+          <th>
+            <div class="ui-g-12"> Total </div>
+          </th>
+
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-transactedProduct let-i="rowIndex">
+        <tr>
+          <td>
+            {{transactedProduct.transactionId }}
+          </td>
+          <td>{{transactedProduct.dateInserted | date: 'dd/MM/yyyy HH:mm'}}</td>
+
+          <td>
+            {{transactedProduct.transaction.transactionType | transactionType }}
+          </td>
+          <td> {{transactedProduct.barcode}}</td>
+          <td> {{transactedProduct.model}}</td>
+          <td> {{transactedProduct.supplier.name}}</td>
+          <td> {{transactedProduct.brand.name}}</td>
+          <td> {{transactedProduct.category.name}}</td>
+          <td style="text-align: right"> {{transactedProduct.transactionQuantity}}</td>
+          <td style="text-align: right">
+            {{transactedProduct.transactionPrice | number:'1.0-2'}} €</td>
+          <!-- <td [style.background]="transactedProduct.transaction.transactionType == 2  ? '#dc3545' : 'green'" style="color: #ffff;font-weight:bolder;text-align: right"> -->
+            <td  style="font-size:1.1em;text-align: right;color: #8b0000; font-weight: bolder"  *ngIf="transactedProduct.transaction.transactionType == 2" >  
+              {{(transactedProduct.transactionPrice * transactedProduct.transactionQuantity) | number:'1.0-2'}} € ▼
+          </td>
+
+          <td  style="font-size:1.1em;text-align: right;color: green;font-weight: bolder"  *ngIf="transactedProduct.transaction.transactionType == 1" >  
+              {{(transactedProduct.transactionPrice * transactedProduct.transactionQuantity) | number:'1.0-2'}} € ▲ 
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="11">
+            Nuk eshte gjetur asnje rekord
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="ui-g">
+          <div class="ui-g-4" style="text-align:left">
+            Jane gjetur {{transactedProductList.count}} rekorde
+          </div>
+          <div class="ui-g-8" style="text-align:right">
+            Shitje :<span style="color: #073669"> {{transactedProductList.totalSalesGains | number:'1.0-2'}} €</span><br>
+            Furnizim: <span style="color: red"> {{transactedProductList.totalSupplySpendings | number:'1.0-2'}} €</span><br>
+            Bilanci:<span *ngIf="transactedProductList.totalBalance < 0" style="color: rgb(113, 2, 12); font-weight: bolder">
+              {{transactedProductList.totalBalance | number:'1.0-2' }}
+              € </span>
+            <span *ngIf="transactedProductList.totalBalance > -1" style="color: #073669;font-weight: bolder">
+              {{transactedProductList.totalBalance | number:'1.0-2'}} €
+            </span>
+          </div>
+        </div>
+      </ng-template>
+    </p-table>
+
+    <!-- </p-panel> -->
+    <!-- </p-accordion> -->
+  </div>
+</div>
+
+<!-- <p-confirmDialog style="width:100%" acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog>
+
+<p-toast position="top-center"></p-toast> -->

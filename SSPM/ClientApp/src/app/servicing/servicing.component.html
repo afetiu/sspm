@@ -1,0 +1,137 @@
+<div class="ui-g-12 componentContainer">
+
+  <div class="ui-g-12 ui-sm-12">
+    <p-accordion>
+      <p-accordionTab [selected]="false" header="Shto servisim te ri">
+
+        <form #f name="f" class=" ui-g ui-fluid">
+
+          <div class="ui-g-6 ui-sm-12">
+            <span class="ui-float-label">
+              <input #newServicingDescription="ngModel" [(ngModel)]="newServicing.description" name="newServicingDescription"
+                type="text" pInputText required (keyup.enter)="onNewServicingSave()">
+              <label for="newServicingDescription">Pershkrim</label>
+            </span>
+          </div>
+
+          <div class="ui-g-2 ui-sm-12">
+            <span class="ui-float-label">
+              <input #newServicingClient="ngModel" [(ngModel)]="newServicing.client" name="newServicingPrice" type="text"
+                pInputText required (keyup.enter)="onNewServicingSave()">
+              <label for="newServicingClient">Klienti</label>
+            </span>
+          </div>
+
+          <div class="ui-g-2 ui-sm-12">
+            <span class="ui-float-label">
+              <input #newServicingPrice="ngModel" [(ngModel)]="newServicing.servicePrice" name="newServicingPrice" type="number" min="0"
+                pInputText required (keyup.enter)="onNewServicingSave()">
+              <label for="newServicingPrice">Pagesa</label>
+            </span>
+          </div>
+
+
+          <div class="ui-g-2 ui-sm-12">
+            <button pButton type="button" style="width:100%" [disabled]="!newServicingDescription.valid || !newServicingClient.valid || !newServicingPrice.valid"
+              (click)="onNewServicingSave()" label="Ruaj" iconPos="center"></button>
+          </div>
+        </form>
+
+
+
+
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+
+
+  <div class="ui-g-12 ui-sm-12">
+    <!-- <p-accordion> -->
+    <p-panel header="Te gjitha produktet">
+
+      <p-table [autoLayout]="true" [loading]="!servicingsList.data" [responsive]="true" [totalRecords]="servicingsList.count"
+        [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]"
+        [value]="servicingsList.data">
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+              <div class="ui-g-12 "> Data (dd/mm/yyyy)</div> 
+              <div class="ui-g-12 ui-g ui-fluid">
+                <div class="ui-g-6">
+  
+                  <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[0].value"
+                    [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Prej"
+                    dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+                </div>
+                <div class="ui-g-6">
+  
+                  <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[1].value"
+                    [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Deri"
+                    dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+                 </div>
+              </div>
+            </th>
+            <th>
+              <div class="ui-g-12"> Pershkrimi </div>
+
+            <th>
+              <div class="ui-g-12"> Klienti </div>
+              <div class="ui-g-12 ui-g ui-fluid">
+                  <input class="tableFilterInput"  pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[2].value"
+                    #nfmFilter="ngModel" placeholder="Filtro">
+                </div>
+            </th>
+            <th>
+              <div class="ui-g-12"> Pagesa </div>
+            </th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+          <tr>
+            <td>{{product.dateInserted | date: 'dd/MM/yyyy HH:mm'}}</td>
+            <td> {{product.description}}</td>
+            <td> {{product.client}}</td>
+            <td style="font-weight: bold; text-align: right"> {{product.servicePrice | number:'1.0-2'}} €</td>
+            <!-- 
+            <td style=" width:5%;text-align: center">
+              <div *ngIf="product.quantity > 0" style="color:#E8E7E7;cursor:not-allowed">
+                <mat-icon>delete_outline</mat-icon>
+              </div>
+              <div *ngIf="product.quantity < 1" style="color:rgb(140, 4, 4);cursor: pointer;">
+                <mat-icon (click)="onProductDelete(product.id)">delete</mat-icon>
+              </div>
+            </td> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="4">
+              Nuk eshte gjetur asnje rekord
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="ui-g">
+            <div class="ui-g-4" style="text-align:left">
+              Jane gjetur {{servicingsList.count}} rekorde
+            </div>
+            <div class="ui-g-8" style="text-align:right">
+
+              Total: {{servicingsList.totalBalance}} €
+
+            </div>
+          </div>
+        </ng-template>
+      </p-table>
+
+    </p-panel>
+    <!-- </p-accordion> -->
+  </div>
+</div>
+<!-- 
+<p-confirmDialog style="width:100%" acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog>
+
+<p-toast position="top-center"></p-toast> -->

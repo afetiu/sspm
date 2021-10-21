@@ -1,0 +1,187 @@
+<div class="ui-g-12 componentContainer">
+
+
+  <div class="ui-g-12 ui-sm-12">
+    <!-- <p-accordion> -->
+    <!-- <p-panel header="Furnizimet"> -->
+
+
+    <p-overlayPanel #op>
+      Content
+    </p-overlayPanel>
+
+
+    <p-table [autoLayout]="true" [loading]="!transactionList.data" [responsive]="true" [totalRecords]="transactionList.count"
+      [lazy]="true" (onLazyLoad)="onLazyLoad($event)" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]"
+      [value]="transactionList.data">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            <div class="ui-g-12"> Id </div>
+            <div class="ui-g-12 ui-g ui-fluid">
+              <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[0].value"
+                #nfmFilter="ngModel" placeholder="Filtro">
+            </div>
+          </th>
+          <th>
+              <div class="ui-g-12 "> Data (dd/mm/yyyy)</div> 
+              <div class="ui-g-12 ui-g ui-fluid">
+                <div class="ui-g-6">
+  
+                  <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[1].value"
+                    [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Prej"
+                    dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+                </div>
+                <div class="ui-g-6">
+  
+                  <p-calendar [showOnFocus]="false" [numberOfMonths]="1" selectionMode="single" [(ngModel)]="filter.filterItems[2].value"
+                    [yearNavigator]="true" yearRange="1900:2100" [monthNavigator]="true" placeholder="Deri"
+                    dateFormat="dd/mm/yy" [showButtonBar]="true" (keyup.enter)="onSearch()" (onSelect)="onSearch()"></p-calendar>
+                 </div>
+              </div>
+            </th>
+          <th>
+            <div class="ui-g-12"> Tipi i Qarkullimit</div>
+            <div class="ui-g-12">
+              <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                (onChange)="onSearch()" [options]="transactionTypeList" placeholder="Filtro" [(ngModel)]="filter.filterItems[3].value"></p-dropdown>
+            </div>
+          </th>
+
+          <th>
+            <div class="ui-g-12"> Perdoruesi </div>
+            <div class="ui-g-12 ui-g ui-fluid">
+              <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[4].value"
+                #nfmFilter="ngModel" placeholder="Filtro">
+            </div>
+          </th>
+
+          <th> Sasia Totale </th>
+          <th> Cmimi Total</th>
+          <th> Detajet</th>
+          <th> Print</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-transaction let-i="rowIndex">
+        <tr>
+          <td>{{transaction.id }}</td>
+
+          <td>{{transaction.dateInserted | date: 'dd/MM/yyyy HH:mm'}}</td>
+          <td>
+            {{transaction.transactionType | transactionType }}
+          </td>
+          <td> {{transaction.user.username}}</td>
+          <td style=" text-align: right"> {{transaction.totalQuantity}}</td>
+          <td style="font-weight:bolder;text-align: right">
+            {{transaction.totalPrice | number:'1.0-2'}} €</td>
+          <td style="text-align: center">
+            <button (click)="onTransactionDetail(transaction.id)" pButton type="button" icon="fa fa-list" class="ui-button-plus"></button>
+          </td>
+          <td  style="text-align: center">
+            <button *ngIf="transaction.transactionType == 1" (click)="onTransactionPrint(transaction)" pButton type="button" icon="fa fa-print" class="ui-button-plus"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="7">
+            Nuk eshte gjetur asnje rekord
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="ui-g">
+          <div class="ui-g-4" style="text-align:left">
+            Jane gjetur {{transactionList.count}} rekorde
+          </div>
+          <div class="ui-g-8" style="text-align:right">
+            Shitje :<span style="color: #073669"> {{transactionList.totalSalesGains | number:'1.0-2'}} €</span><br>
+            Furnizim: <span style="color: red"> {{transactionList.totalSupplySpendings | number:'1.0-2'}} €</span><br>
+            Bilanci:<span *ngIf="transactionList.totalBalance < 0" style="color: red; font-weight: bolder">
+              {{transactionList.totalBalance | number:'1.0-2'}}
+              € </span>
+            <span *ngIf="transactionList.totalBalance > -1" style="color: #073669;font-weight: bolder">
+              {{transactionList.totalBalance | number:'1.0-2'}} €
+            </span>
+          </div>
+        </div>
+      </ng-template>
+    </p-table>
+
+    <!-- </p-panel> -->
+    <!-- </p-accordion> -->
+
+  </div>
+</div>
+
+<p-dialog appendTo="body" transitionOptions="50ms" [modal]="true" [(visible)]="showDialog" #dialog header="Produktet e qarkullimit"
+  [(visible)]="display">
+  <p-table [autoLayout]="true" [loading]="!transactionProductsList.data" [responsive]="true" [totalRecords]="transactionProductsList.count"
+    (onLazyLoad)="onTransactedProductsLazyLoad($event)" [rowsPerPageOptions]="[5,10,20,50,100]" [value]="transactionProductsList.data">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          <div class="ui-g-12 "> Data </div>
+        </th>
+        <th>
+          <div class="ui-g-12"> Tipi i Qarkullimit</div>
+        </th>
+        <th>
+          <div class="ui-g-12"> Barkodi</div>
+        </th>
+        <th>
+          <div class="ui-g-12"> Modeli</div>
+        </th>
+        <th>
+          <div class="ui-g-12"> Furnizuesi </div>
+        </th>
+        <th>
+          <div class="ui-g-12"> Firma </div>
+        </th>
+        <th>
+          <div class="ui-g-12"> Kategoria </div>
+        </th>
+
+        <th> Sasia </th>
+        <th> Cmimi </th>
+        <th> Total </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-transactedProduct let-i="rowIndex">
+      <tr>
+        <td>{{transactedProduct.dateInserted | date: 'dd/MM/yyyy HH:mm'}}</td>
+        <td>
+          {{transactedProduct.transaction.transactionType | transactionType }}
+        </td>
+        <td> {{transactedProduct.barcode}}</td>
+        <td> {{transactedProduct.model}}</td>
+        <td> {{transactedProduct.supplier.name}}</td>
+        <td> {{transactedProduct.brand.name}}</td>
+        <td> {{transactedProduct.category.name}}</td>
+        <td style="text-align: right"> {{transactedProduct.transactionQuantity}}</td>
+        <td style="text-align: right">
+          {{transactedProduct.transactionPrice | number:'1.0-2'}} €</td>
+        <td [style.background]="transactedProduct.transaction.transactionType == 2  ? '#dc3545' : '#073669'" style="color: #ffff;font-weight:bolder;text-align: right">
+          {{transactedProduct.transactionPrice * transactedProduct.transactionQuantity | number:'1.0-2'}} €
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="7">
+          Nuk eshte gjetur asnje rekord
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      Total: {{transactionProductsList.count}}
+
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<!-- <p-confirmDialog style="width:100%" acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog>
+
+<p-toast position="top-center"></p-toast> -->

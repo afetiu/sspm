@@ -1,0 +1,264 @@
+<div class="ui-g-12 componentContainer">
+
+
+
+
+
+  <!-- info -->
+  <div class="ui-g-12 componentContainer">
+
+    <p-card class="ui-g-12">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <h4>
+            <mat-icon style="color:rgb(196, 134, 41)" class="menuMatIcon">info</mat-icon> Informatat e pergjithshme te
+            shitjes
+          </h4>
+        </div>
+
+            <div class="ui-g-12">
+
+              <p-card class="ui-g-3">
+                Numri i produkteve <span class="infoNumber"> {{newSale.transactedProducts.length}} </span>
+              </p-card>
+              <p-card class="ui-g-3">
+                Cmimi Total <span class="infoNumber"> {{newSale.initialPrice | number:'1.0-2'}} € </span>
+              </p-card>
+              <p-card class="ui-g-3">
+                Zbritje
+                <span class="infoNumber" *ngIf="newSale.discountType == 1"> {{newSale.discount}} % </span>
+                <span class="infoNumber" *ngIf="newSale.discountType == 2"> {{newSale.discount}} € </span>
+              </p-card>
+              <p-card class="ui-g-3">
+                Cmimi pas zbritjes <span class="infoNumber"> {{newSale.totalPrice | number:'1.0-2'}} € </span>
+              </p-card>
+
+        </div>
+      </div>
+    </p-card>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+  <div class="ui-g-9 componentContainer">
+
+    <p-card class="ui-g-12">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <h3>
+            <mat-icon style="color:#073669" class="menuMatIcon">monetization_on</mat-icon> Shitje
+          </h3>
+        </div>
+
+
+        <div class="ui-g-12">
+          <div class="ui-g">
+            <div class="ui-g-4 ui-sm-12">
+              <span class="ui-inputgroup">
+                <input placeholder="Barkodi" style="width:100%" #searchProductBarcode="ngModel" [(ngModel)]="newTransactedProduct.barcode"
+                  name="newProductBarcode" type="text" pInputText required (keyup.enter)="handleEnter()">
+                <button pButton type="button" [disabled]="!searchProductBarcode.valid" (click)="onProdSearch()" icon="fa fa-search"
+                  class="ui-button-warn"></button>
+              </span>
+            </div>
+
+            <div class="ui-g-4 ui-sm-12">
+              <span class=" ui-inputgroup">
+                <input style="width:100%" #searchProductModel="ngModel" [(ngModel)]="newTransactedProduct.model" name="newProductModel"
+                  type="text" pInputText required placeholder="Modeli" (keyup.enter)="handleEnter()">
+                <button pButton type="button" [disabled]="!searchProductModel.valid" (click)="onProdSearch()" icon="fa fa-search"
+                  class="ui-button-warn"></button>
+              </span>
+            </div>
+            <div class="ui-g-2 ui-sm-12">
+              <span class="ui-float-label">
+                <input style="width:100%" #prodquantity="ngModel" (keyup.enter)="onAddToList()" [(ngModel)]="newTransactedProduct.transactionQuantity"
+                  name="prodquantity" type="number" min="1" pInputText required>
+                <label for="newProductDescription">Sasia</label>
+              </span>
+            </div>
+            <!-- <div class="ui-g-2 ui-sm-12">
+          <span class="ui-float-label">
+            <input style="width:100%" #prodprice="ngModel" (keyup.enter)="onAddToList()" [(ngModel)]="newTransactedProduct.transactionPrice"
+              name="prodprice" type="number" min="0" pInputText required>
+            <label for="newProductDescription">Cmimi</label>
+          </span>
+        </div> -->
+            <div class="ui-g-2 ui-sm-12">
+              <button pButton type="button" [disabled]="(!searchProductModel.valid && !searchProductBarcode.valid)|| !prodquantity.valid"
+                style="width:100%;" class="ui-button-secondary" (click)="onAddToList()" label="Shto ne liste" icon="fa  fa-cart-plus"
+                iconPos="left"></button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="ui-g-12 ui-sm-12">
+
+          <p-table [loading]="!newSale.transactedProducts" [responsive]="true" [totalRecords]="newSale.transactedProducts.length"
+            [paginator]="true" [rows]="10" [value]="newSale.transactedProducts">
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th>
+                  <div class="ui-g-12 "> Barkodi </div>
+                </th>
+                <th>
+                  <div class="ui-g-12 "> Modeli </div>
+                </th>
+
+                <th>
+                  <div class="ui-g-12"> Sasia </div>
+                </th>
+
+                <th>
+                  <div class="ui-g-12"> Cmimi </div>
+                </th>
+
+                <th>
+                  <div class="ui-g-12"> Total </div>
+                </th>
+                <th style="wdith:10%">
+                  <div class="ui-g-12"> Fshij </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-i="rowIndex">
+              <tr>
+                <td> {{product.barcode}}</td>
+                <td> {{product.model}}</td>
+                <td> {{product.transactionQuantity}}</td>
+                <td> {{product.transactionPrice | number:'1.0-2'}} €</td>
+                <td> {{product.transactionPrice * product.transactionQuantity | number:'1.0-2'}} €</td>
+
+                <td style=" width:5%;text-align: center">
+
+                  <div style="color:rgb(140, 4, 4);cursor: pointer;">
+                    <mat-icon (click)="onRemoveFromList(i)">delete</mat-icon>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td [attr.colspan]="6">
+                  Nuk eshte shtuar asnje produkt
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div class="ui-g-3 ui-sm-112">
+          <span class="ui-float-label">
+            <input style="width:100%" #cl="ngModel" [(ngModel)]="newSale.Client" name="cl" type="text" pInputText>
+            <label for="cl">Klienti</label>
+          </span>
+        </div>
+
+        <div class="ui-g-3 ui-sm-112">
+          <span class="ui-float-label">
+            <input style="width:100%" #disc="ngModel" min="0" (input)="addDiscount()" [(ngModel)]="newSale.discount"
+              name="disc" type="number" pInputText>
+            <label for="disc">Zbritje</label>
+          </span>
+        </div>
+
+        <div class="ui-g-3 ui-sm-112">
+          <span class="ui-inputgroup">
+            <p-dropdown (onChange)="addDiscount()" [style]="{'width':'100%'}" [autoWidth]="false" class="tableFilterInput"
+              [options]="discountType" [(ngModel)]="newSale.discountType"></p-dropdown>
+          </span>
+        </div>
+
+        <div class="ui-g-3 ui-sm-112">
+          <button pButton type="button" [disabled]="newSale.transactedProducts.length<1" style="width:100%;padding: 5px"
+            (click)="onSale()" label="Kompleto Shitjen" class="ui-button-primary" icon="fa fa-check" iconPos="right"></button>
+        </div>
+
+
+      </div>
+    </p-card>
+
+
+
+
+  </div>
+
+  <!-- info -->
+  <div class="ui-g-3 componentContainer">
+
+    <p-card class="ui-g-12">
+      <div class="ui-g">
+
+
+        <div *ngIf="foundProduct.model" class="ui-g-12">
+          <div class="info-card">
+            <div class="ui-g">
+              <div class="ui-g-12 infoTitle"> Te dhenat e produktit te gjetur </div>
+
+
+              <p-card class="ui-g-12">
+                Barkodi <span class="infoNumber"> {{foundProduct.barcode}} </span>
+              </p-card>
+              <p-card class="ui-g-12">
+                Modeli <span class="infoNumber"> {{foundProduct.model}} </span>
+              </p-card>
+              <p-card class="ui-g-12">
+                Furnizuesi <span class="infoNumber"> {{foundProduct.supplier.name}}</span>
+              </p-card>
+              <p-card class="ui-g-12">
+                Sasia Aktuale <span class="infoNumber"> {{foundProduct.quantity}}</span>
+              </p-card>
+              <p-card class="ui-g-12">
+                Cmimi i Shitjes <span class="infoNumber"> {{foundProduct.salePrice | number:'1.0-2'}} €</span>
+              </p-card>
+
+
+              <!-- <div class="ui-g-6 ui-sm-12">Firma</div>
+              <div class="ui-g-6 ui-sm-12 infoNumber">{{foundProduct.brand.name}}</div>
+              <div class="ui-g-6 ui-sm-12 ">Kategoria</div>
+              <div class="ui-g-6 ui-sm-12 infoNumber">{{foundProduct.category.name}}</div> -->
+
+
+
+            </div>
+          </div>
+        </div>
+
+
+        <div *ngIf="!foundProduct.model" class="ui-g-12">
+           
+          Nuk eshte selektuar asnje produkt!
+              </div> 
+
+
+      </div>
+    </p-card>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+<!-- <p-toast position="top-center"></p-toast> -->
+<!-- <p-confirmDialog style="width:100%" acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog> -->

@@ -1,0 +1,155 @@
+<div class="ui-g-12 componentContainer">
+
+  <div class="ui-g-12 ui-sm-12">
+    <p-accordion>
+      <p-accordionTab [selected]="false" header="Shto perdorues te ri">
+
+
+          <form #f name="f" class=" ui-g ui-fluid">
+            <div class="ui-g-6 ui-sm-12">
+              <span class="ui-float-label">
+                <input #newUserFirstName="ngModel" [(ngModel)]="newUser.firstName" name="newUserFirstName" type="text"
+                  pInputText required (keyup.enter)="onNewUserSave()">
+                <label for="newUserFirstName">Emri</label>
+              </span>
+            </div>
+  
+            <div class="ui-g-6 ui-sm-12">
+              <span class="ui-float-label">
+                <input #newUserLastName="ngModel" [(ngModel)]="newUser.lastName" name="newUserLastName" type="text"
+                  pInputText required (keyup.enter)="onNewUserSave()">
+                <label for="newUserLastName">Mbiemri</label>
+              </span>
+            </div>
+  
+            <div class="ui-g-6 ui-sm-12">
+              <span class="ui-float-label">
+                <input #newUserUsername="ngModel" [(ngModel)]="newUser.username" name="newUserUsername" type="text"
+                  pInputText required (keyup.enter)="onNewUserSave()">
+                <label for="newUserUsername">Username</label>
+              </span>
+            </div>
+  
+            <div class="ui-g-6 ui-sm-12">
+              <span class="ui-float-label">
+                <input #newUserPassword="ngModel" [(ngModel)]="newUser.password" name="newUserPassword" type="password"
+                  pInputText required (keyup.enter)="onNewUserSave()">
+                <label for="newUserPassword">Password</label>
+              </span>
+            </div>
+  
+            <div class="ui-g-6 ui-sm-12">
+              <span class="ui-float-label">
+                <input #newUserConfirmPassword="ngModel" [(ngModel)]="confirmPassword" name="newUserConfirmPassword" type="password"
+                  pInputText required (keyup.enter)="onNewUserSave()">
+                <label for="newUserConfirmPassword">Konfirmo Passwordin</label>
+              </span>
+            </div>
+          <div class="ui-g-6 ui-sm-12">
+            <p-dropdown [showClear]="true" [style]="{'width':'100%'}" [options]="roleSelectItemList" placeholder="Roli"
+              #newProductRole="ngModel" name="newUserRole" [(ngModel)]="newUser.roleId" required></p-dropdown>
+          </div>
+
+
+
+          <div class="ui-g-12 ui-sm-12">
+            <button pButton type="button" style="width:100%" 
+            [disabled]="!newUserFirstName.valid ||!newUserLastName.valid 
+            ||!newUserUsername.valid ||!newUserPassword.valid 
+            ||!newUserConfirmPassword.valid || !newProductRole.valid "
+              (click)="onNewUserSave()" label="Ruaj" iconPos="center"></button>
+          </div>
+        </form>
+
+
+
+
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+
+
+  <div class="ui-g-12 ui-sm-12">
+    <!-- <p-accordion> -->
+    <p-panel header="Te gjithe perdoruesit">
+
+      <p-table [loading]="!userList.data" [responsive]="true" [totalRecords]="userList.count" [lazy]="true"
+        (onLazyLoad)="onLazyLoad($event)" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]"
+        [value]="userList.data">
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>
+              <div class="ui-g-12"> Emri </div>
+              <div class="ui-g-12">
+                <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[0].value"
+                  #nfmFilter="ngModel" placeholder="Filtro">
+              </div>
+            </th>
+
+            <th>
+              <div class="ui-g-12"> Mbiemri </div>
+              <div class="ui-g-12">
+                <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[1].value"
+                  #nfmFilter="ngModel" placeholder="Filtro">
+              </div>
+            </th>
+
+            <th>
+              <div class="ui-g-12"> Username </div>
+              <div class="ui-g-12">
+                <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[2].value"
+                  #nfmFilter="ngModel" placeholder="Filtro">
+              </div>
+            </th>
+
+
+            <th>
+              <div class="ui-g-12"> Roli </div>
+              <div class="ui-g-12">
+                <p-dropdown [showClear]="true" class="tableFilterInput" [style]="{'width':'100%'}" [autoWidth]="false"
+                  (onChange)="onSearch()" [options]="roleSelectItemList" placeholder="Filtro" [(ngModel)]="filter.filterItems[3].value"></p-dropdown>
+              </div>
+            </th>
+            <th>Fshij</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user let-i="rowIndex">
+          <tr>
+
+            <td>
+              <span class="ui-column-title">Emri</span>
+              {{user.firstName}}
+            </td>
+            <td> <span class="ui-column-title">Mbiemri</span>{{user.lastName}}</td>
+            <td> <span class="ui-column-title">Username</span>{{user.username}}</td>
+            <td> <span class="ui-column-title">Roli</span>{{user.role.name}}</td>
+
+            <td >
+              <div style="color:rgb(140, 4, 4);cursor: pointer;">
+                <mat-icon (click)="onUserDelete(user.id)">delete</mat-icon>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="4">
+              Nuk eshte gjetur asnje rekord
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          Total: {{userList.count}}
+        </ng-template>
+      </p-table>
+
+    </p-panel>
+    <!-- </p-accordion> -->
+  </div>
+</div>
+
+<!-- <p-confirmDialog style="width:100%" acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog>
+
+<p-toast position="top-center"></p-toast> -->

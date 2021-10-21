@@ -1,0 +1,176 @@
+<div class="ui-g-12 componentContainer">
+
+  <div class="ui-g-4 ui-sm-12">
+    <p-accordion>
+      <p-accordionTab [selected]="true" header="Firma">
+
+
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-inputgroup">
+            <input #nfm="ngModel" [(ngModel)]="newBrand.name" name="nfm" type="text" pInputText placeholder="Shto firme te re"
+              required (keyup.enter)="onBrandSave()">
+              <button pButton type="button" icon="fa fa-plus" [disabled]="!nfm.valid" (click)="onBrandSave()" class="ui-button-warn"></button>
+          </div>
+          <!-- <div class="ui-g-3">
+            <button pButton type="button" style="width:100%" [disabled]="!nfm.valid" (click)="onBrandSave()" icon="fa fa-plus"
+              iconPos="center"></button>
+          </div> -->
+
+          <p-table [loading]="!brandList.data" [totalRecords]="brandList.count" [lazy]="true" (onLazyLoad)="onBrandsLazyLoad($event)"
+            [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]" [value]="brandList.data">
+            <ng-template pTemplate="header">
+              <tr>
+                <!-- <th>Data e krijimit</th> -->
+                <th>Firmat
+                  <!-- <div class="ui-g-12 ui-inputgroup">
+                    <input pInputText type="text" (keyup.enter)="onBrandSearch()" [(ngModel)]="brandFilter.filterItems[0].value"
+                      #nfmFilter="ngModel" required placeholder="Filtro">
+                    <button pButton type="button" icon="fa fa-search" (click)="onBrandSearch()" class="ui-button-warn"></button>
+                  </div> -->
+
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-brand let-i="rowIndex">
+              <tr>
+                <!-- <td>
+                  {{brand.dateInserted | transformDate}}
+                </td> -->
+                <td>{{brand.name}}
+                  <div class="tableButtonDelete">
+                    <mat-icon (click)="onBrandDelete(brand.id)">delete</mat-icon>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td>
+                  Nuk eshte gjetur asnje rekord
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+              Total: {{brandList.count}}
+            </ng-template>
+          </p-table>
+        </div>
+
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
+
+  <div class="ui-g-4 ui-sm-12">
+    <p-accordion>
+
+      <p-accordionTab [selected]="true" header="Kategoria">
+
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-inputgroup">
+            <input #ncn="ngModel" [(ngModel)]="newCategory.name" name="ncn" type="text" pInputText placeholder="Shto kategori te re"
+              required (keyup.enter)="onCategorySave()">
+              <button pButton type="button" icon="fa fa-plus" [disabled]="!ncn.valid" (click)="onCategorySave()" class="ui-button-warn"></button>
+          </div>
+        </div>
+
+        <p-table [loading]="!categoryList.data" [totalRecords]="categoryList.count" [lazy]="true" (onLazyLoad)="onCategoryLazyLoad($event)"
+          [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]" [value]="categoryList.data">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Kategorite
+                <!-- <div class="ui-g-12">
+                  <input pInputText style="width:100%" type="text" (keyup.enter)="onCategorySearch()" [(ngModel)]="categoryFilter.filterItems[0].value"
+                    #classFilter="ngModel" name="classFilter" required placeholder="Filtro">
+                    <button pButton type="button" icon="fa fa-search" (click)="onCategorySearch()" class="ui-button-warn"></button>
+                </div> -->
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-category let-i="rowIndex">
+            <tr>
+
+              <td>{{category.name}}
+                <div class="tableButtonDelete">
+                  <mat-icon (click)="onCategoryDelete(category.id)">delete</mat-icon>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td>
+                Nuk eshte gjetur asnje rekord
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary">
+            Total: {{categoryList.count}}
+          </ng-template>
+        </p-table>
+      </p-accordionTab>
+    </p-accordion>
+ 
+    
+  </div> 
+
+
+  <div class="ui-g-4 ui-sm-12">
+     
+      <p-accordion> 
+          <p-accordionTab [selected]="true" header="Furnizuesi">
+    
+            <div class="ui-g ui-fluid">
+              <div class="ui-g-12 ui-inputgroup">
+                <input #nc="ngModel" [(ngModel)]="newSupplier.name" name="ncn" type="text" pInputText placeholder="Shto furnizues te ri"
+                  required (keyup.enter)="onSupplierSave()">
+                  <button pButton type="button" icon="fa fa-plus" [disabled]="!nc.valid" (click)="onSupplierSave()" class="ui-button-warn"></button>
+              </div>
+            </div>
+    
+            <p-table [loading]="!supplierList.data" [totalRecords]="supplierList.count" [lazy]="true" (onLazyLoad)="onSupplierLazyLoad($event)"
+              [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,50,100]" [value]="supplierList.data">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Furnizuesit
+                    <!-- <div class="ui-g-12">
+                      <input pInputText style="width:100%" type="text" (keyup.enter)="onCategorySearch()" [(ngModel)]="categoryFilter.filterItems[0].value"
+                        #classFilter="ngModel" name="classFilter" required placeholder="Filtro">
+                        <button pButton type="button" icon="fa fa-search" (click)="onCategorySearch()" class="ui-button-warn"></button>
+                    </div> -->
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-supplier let-i="rowIndex">
+                <tr>
+    
+                  <td>{{supplier.name}}
+                    <div class="tableButtonDelete">
+                      <mat-icon (click)="onSupplierDelete(supplier.id)">delete</mat-icon>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td>
+                    Nuk eshte gjetur asnje rekord
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="summary">
+                Total: {{supplierList.count}}
+              </ng-template>
+            </p-table>
+          </p-accordionTab>
+        </p-accordion> 
+    </div> 
+
+
+
+
+</div>
+
+<!-- <p-confirmDialog acceptLabel="Po" rejectLabel="Jo" appendTo="body"></p-confirmDialog> -->
+
+<!-- <p-toast position="top-center"></p-toast> -->

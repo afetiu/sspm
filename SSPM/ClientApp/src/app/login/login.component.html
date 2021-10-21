@@ -1,0 +1,42 @@
+<div  class="wrapper fadeInDown">
+  <div *ngIf="!load"id="formContent">
+    <div class="fadeIn first">
+    </div>
+
+
+
+
+    <p-panel header="Login">
+      <form #f name="f" class=" ui-g ui-fluid">
+        <div class="ui-g-12 ui-sm-12">
+          <span class="ui-float-label">
+            <input #username="ngModel" [(ngModel)]="userLogin.username" name="username" type="text" pInputText required
+              (keyup.enter)="onLogin()">
+            <label for="username">Username</label>
+          </span>
+        </div>
+
+        <div class="ui-g-12 ui-sm-12">
+          <span class="ui-float-label">
+            <input #password="ngModel" [(ngModel)]="userLogin.password" name="password" type="password" pInputText
+              required (keyup.enter)="onLogin()">
+            <label for="password">Password</label>
+          </span>
+        </div>
+
+        <div class="ui-g-12 ui-sm-12">
+          <button pButton type="button" style="width:100%" [disabled]="!username.valid ||!password.valid" (click)="onLogin()"
+            label="Login" iconPos="center"></button>
+        </div>
+
+      </form>
+    </p-panel>
+
+  </div>
+  <div *ngIf="load" style="margin:auto" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+
+</div>
+ 
+
+
+<p-toast position="top-center"></p-toast>

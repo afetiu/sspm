@@ -1,0 +1,108 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.formLabel{
+    text-align: right
+}
+
+.formValue{
+    text-align: left;
+    font-weight: bold;
+}
+.componentContainer{
+    padding:15px;
+}
+
+
+.tableButtonEdit{
+    width: 10%;
+    text-align: center;
+    color:black;
+    cursor: pointer;
+}
+.tableButtonDelete{
+    width: 10%;
+    text-align: center;
+    color:rgb(140, 4, 4);
+    cursor: pointer;
+    text-align: right;
+    float:right;
+}
+
+.ui-calendar .ui-datepicker .tableFilterInput{
+    width: 100%;
+}
+
+.ui-accordion .ui-accordion-header a{
+    text-decoration: none;
+}
+
+.ui-steps .ui-steps-item {
+    width: 50%;
+} 
+
+.mat-toolbar.mat-primary{
+    background: #00103e;
+}
+ 
+.ui-panel .ui-panel-titlebar{
+    font-size: 1.2em;
+    border-color: #425f97 !important;
+    background: #425f97 !important;
+    color:#ffff !important
+}
+
+
+.ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a{
+    background: #425f97 !important;
+    border-color: #425f97 !important;
+    color:#ffff !important
+}
+
+
+.ui-button{
+    border-color: #425f97 !important;
+    background: #425f97 !important;
+    color:#ffff !important
+}
+
+
+
+.ui-table-summary{
+    font-size: 1.3em;
+}
+
+body .ui-table .ui-table-tbody{
+    font-size: 1.2em;
+    
+}
+
+.mat-drawer-inner-container{
+    background: #073669;
+}
+
+.mat-list-base .mat-list-item{
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.mat-toolbar{
+    color: #ffffff;
+}
+
+body .ui-table .ui-table-tbody tr td{
+    padding:0px
+}
+/* 
+.ui-card-body{
+    background: #073669 !important;
+    color: white !important;
+}
+
+body .ui-card{
+    background: #073669 !important;
+    color: white !important;
+} */
+
