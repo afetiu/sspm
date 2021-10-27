@@ -71,7 +71,7 @@ namespace SSPM
                 app.UseExceptionHandler("/Error");
             }
 
-            bloggingContext.Database.Migrate();
+            //bloggingContext.Database.Migrate();
 
 
             app.UseCors("AllowAll");

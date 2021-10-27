@@ -36,6 +36,7 @@ export class TransactionlistComponent implements OnInit {
   advancedDateFilter = false;
   showDialog = false;
   transactionProductsList: PagedList = new PagedList();
+  display: boolean;
 
   constructor(
     private transactionService: TransactionService,
