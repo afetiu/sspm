@@ -145,7 +145,6 @@
         </p-panel>
         <br>
         <p-panel header="Agjenda">
-            <!-- <p>Display event : {{displayEvent | json}}</p> -->
             <div *ngIf="calendarOptions">
                 <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)"
                     (eventResize)="updateEvent($event.detail)" (eventDrop)="updateEvent($event.detail)"></ng-fullcalendar>

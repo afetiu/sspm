@@ -101,7 +101,7 @@ namespace SSPM_API.Controllers
 
                 if (allAdminUsers.Count == 1)
                 {
-                    return BadRequest("Nuk mund te fshihen te gjtihe userat me rolin admin");
+                    return BadRequest("Nuk mund te fshihen te gjithe userat me rolin admin");
                 }
 
 
