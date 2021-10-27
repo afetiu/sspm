@@ -1,4 +1,4 @@
-import { AuthGuardService, AdminCheck } from './services/auth-guard.service';
+import { AuthGuardService, AdminCheck, LoginGuard } from './services/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -51,7 +51,7 @@ import { FullCalendarModule } from 'ng-fullcalendar';
 
 
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   {
     path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService], children:
       [

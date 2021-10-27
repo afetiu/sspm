@@ -35,6 +35,34 @@ export class AuthGuardService {
 @Injectable({
   providedIn: 'root'
 })
+export class LoginGuard {
+
+  constructor(
+    private router: Router,
+    ) { }
+
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
+    var token = localStorage.getItem('jwt');
+
+    if (!token){
+      return true
+    }
+     this.router.navigate(['dashboard/stats']);
+     return false;
+
+    // if (localStorage.getItem('isLoggedIn')) {
+    //   return true;
+    // }
+    // this.router.navigate(['login']);
+
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class AdminCheck {
 
   constructor(
@@ -52,7 +80,7 @@ export class AdminCheck {
       return true
     }
 
-    this.router.navigate(['dashboard/stats']); 
+    this.router.navigate(['dashboard/stats']);
     window.alert('Nuk keni qasje ne kete faqe')
      return false;
 
