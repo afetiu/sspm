@@ -1,9 +1,10 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
 
     <mat-toolbar class="toolbarTitle">Menu
-       <div  *ngIf="drawer.opened" style="width:100%; text-align: right">
+      <div *ngIf="drawer.opened" style="width:100%; text-align: right">
         <mat-icon style="cursor:pointer;" (click)="drawer.toggle()">chevron_left</mat-icon>
 
       </div>
@@ -26,7 +27,7 @@
         <mat-icon class="menuMatIcon">build</mat-icon> Servisim
       </a>
 
-      
+
       <a mat-list-item [routerLink]="['/dashboard/transactionlist']">
         <mat-icon class="menuMatIcon">cached</mat-icon> Qarkullimi
       </a>
@@ -35,8 +36,8 @@
         <mat-icon class="menuMatIcon">history</mat-icon> Produktet e qarkulluara
       </a>
 
- 
-      <a *ngIf="loggedInRoleName == 'Admin'"  mat-list-item [routerLink]="['/dashboard/administration']">
+
+      <a *ngIf="loggedInRoleName == 'Admin'" mat-list-item [routerLink]="['/dashboard/administration']">
         <mat-icon class="menuMatIcon">settings</mat-icon> Administrimi
       </a>
 
@@ -46,18 +47,19 @@
 
 
 
-      
+
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-          <mat-icon *ngIf="!drawer.opened" style="cursor:pointer; margin-right:10px;" (click)="drawer.toggle()">menu</mat-icon>
-  
+    <mat-toolbar color="primary" style=" display: flex; justify-content: space-between">
+      <mat-icon *ngIf="!drawer.opened" style="cursor:pointer; margin-right:10px;" (click)="drawer.toggle()">menu
+      </mat-icon>
+
       <span>SSPM</span>
-      <div style="width:100%; text-align: right">
+      <div style="display: flex;
+      align-items: center;">
         <div>{{loggedInUsername}} </div>
-          <!-- {{loggedInUsername}} -->
-        <mat-icon class="logoutButton" style="cursor:pointer; margin-right:10px;" (click)="onLogOut()">logout</mat-icon>
+        <mat-icon class="logoutButton" style="cursor:pointer; margin-left:10px;" (click)="onLogOut()">logout</mat-icon>
 
       </div>
     </mat-toolbar>
