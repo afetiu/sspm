@@ -17,7 +17,7 @@ import { Role } from '../models/Role';
 })
 export class UserlistComponent implements OnInit {
 
- 
+
 
   userList: PagedList = new PagedList();
   displayDialog = false;
@@ -44,10 +44,10 @@ export class UserlistComponent implements OnInit {
     this.getRolesSelect();
 
     this.filter.filterItems.push(
-      new FilterItem("Emri", filterType.text),
-      new FilterItem("Mbiemri", filterType.text),
+      new FilterItem("FirstName", filterType.text),
+      new FilterItem("LastName", filterType.text),
       new FilterItem("Username", filterType.text),
-      new FilterItem("Roli", filterType.role)
+      new FilterItem("RoleId", filterType.role)
     )
 
   }
@@ -85,9 +85,9 @@ export class UserlistComponent implements OnInit {
       this.newUser.lastName != null &&
       this.newUser.username != null &&
       this.newUser.password != null
-      
+
       // && (this.confirmPassword == this.newUser.password)
-      
+
       ) {
 
 

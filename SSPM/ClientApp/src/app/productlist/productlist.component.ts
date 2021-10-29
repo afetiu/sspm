@@ -10,7 +10,7 @@ import { FilterItem, filterType } from '../models/filter-item';
 import { ConfigService } from '../services/config.service';
 import { SelectedItem } from '../models/selected-item';
 import { Product } from '../models/product';
-import { Category } from '../models/category'; 
+import { Category } from '../models/category';
 
 @Component({
   selector: 'app-productlist',
@@ -19,7 +19,7 @@ import { Category } from '../models/category';
 })
 export class ProductlistComponent implements OnInit {
 
-  
+
   productsList: PagedList = new PagedList();
  // displayDialog = false;
   loading = false;
@@ -55,8 +55,8 @@ export class ProductlistComponent implements OnInit {
       new FilterItem("DateInserted", filterType.date) ,
       new FilterItem("DateInserted", filterType.dateFrom) ,
       new FilterItem("DateInserted", filterType.dateTo) ,
-      new FilterItem("Model", filterType.text),
       new FilterItem("Barcode", filterType.text),
+      new FilterItem("Model", filterType.text),
       new FilterItem("Brand", filterType.brand),
       new FilterItem("Supplier", filterType.supplier),
       new FilterItem("Category", filterType.category),
@@ -84,6 +84,7 @@ export class ProductlistComponent implements OnInit {
   }
 
   onSearch() {
+    console.log(this.filter)
 
     this.filter.first = 0;
     this.getProducts(this.filter);
@@ -141,7 +142,7 @@ export class ProductlistComponent implements OnInit {
           this.messageService.add({ severity: 'error', summary: error.error })
         }
       )
-     
+
     }
     else {
       this.messageService.add({ severity: 'error', summary: 'Ploteso fushat e kerkuara' })
@@ -158,7 +159,7 @@ export class ProductlistComponent implements OnInit {
     }
     else {
       this.advancedDateFilter = false;
-      this.filter.filterItems[1].value = null; 
+      this.filter.filterItems[1].value = null;
       this.filter.filterItems[2].value = null;
 
     }

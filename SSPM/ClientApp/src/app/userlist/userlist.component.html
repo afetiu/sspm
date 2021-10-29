@@ -13,7 +13,7 @@
                 <label for="newUserFirstName">Emri</label>
               </span>
             </div>
-  
+
             <div class="ui-g-6 ui-sm-12">
               <span class="ui-float-label">
                 <input #newUserLastName="ngModel" [(ngModel)]="newUser.lastName" name="newUserLastName" type="text"
@@ -21,7 +21,7 @@
                 <label for="newUserLastName">Mbiemri</label>
               </span>
             </div>
-  
+
             <div class="ui-g-6 ui-sm-12">
               <span class="ui-float-label">
                 <input #newUserUsername="ngModel" [(ngModel)]="newUser.username" name="newUserUsername" type="text"
@@ -29,7 +29,7 @@
                 <label for="newUserUsername">Username</label>
               </span>
             </div>
-  
+
             <div class="ui-g-6 ui-sm-12">
               <span class="ui-float-label">
                 <input #newUserPassword="ngModel" [(ngModel)]="newUser.password" name="newUserPassword" type="password"
@@ -37,7 +37,7 @@
                 <label for="newUserPassword">Password</label>
               </span>
             </div>
-  
+
             <div class="ui-g-6 ui-sm-12">
               <span class="ui-float-label">
                 <input #newUserConfirmPassword="ngModel" [(ngModel)]="confirmPassword" name="newUserConfirmPassword" type="password"
@@ -53,9 +53,9 @@
 
 
           <div class="ui-g-12 ui-sm-12">
-            <button pButton type="button" style="width:100%" 
-            [disabled]="!newUserFirstName.valid ||!newUserLastName.valid 
-            ||!newUserUsername.valid ||!newUserPassword.valid 
+            <button pButton type="button" style="width:100%"
+            [disabled]="!newUserFirstName.valid ||!newUserLastName.valid
+            ||!newUserUsername.valid ||!newUserPassword.valid
             ||!newUserConfirmPassword.valid || !newProductRole.valid "
               (click)="onNewUserSave()" label="Ruaj" iconPos="center"></button>
           </div>
@@ -84,7 +84,7 @@
               <div class="ui-g-12"> Emri </div>
               <div class="ui-g-12">
                 <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[0].value"
-                  #nfmFilter="ngModel" placeholder="Filtro">
+                  #emriFilter="ngModel" placeholder="Filtro">
               </div>
             </th>
 
@@ -92,7 +92,7 @@
               <div class="ui-g-12"> Mbiemri </div>
               <div class="ui-g-12">
                 <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[1].value"
-                  #nfmFilter="ngModel" placeholder="Filtro">
+                  #mbiemriFilter="ngModel" placeholder="Filtro">
               </div>
             </th>
 
@@ -100,7 +100,7 @@
               <div class="ui-g-12"> Username </div>
               <div class="ui-g-12">
                 <input class="tableFilterInput" pInputText type="text" (keyup.enter)="onSearch()" [(ngModel)]="filter.filterItems[2].value"
-                  #nfmFilter="ngModel" placeholder="Filtro">
+                  #UsernameFilter="ngModel" placeholder="Filtro">
               </div>
             </th>
 
