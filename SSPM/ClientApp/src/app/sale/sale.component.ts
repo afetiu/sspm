@@ -50,6 +50,15 @@ export class SaleComponent implements OnInit {
     this.discountType.push(
       percentage, euro
     )
+
+    this.initSale();
+
+    this.foundProduct.brand = new Brand();
+    this.foundProduct.category = new Category();
+    this.foundProduct.supplier = new Supplier();
+  }
+
+  initSale(){
     this.newSale.discountType = 1;
     this.newSale.totalPrice = 0;
     this.newSale.initialPrice = 0;
@@ -57,9 +66,6 @@ export class SaleComponent implements OnInit {
     this.newSale.userId = parseInt(localStorage.getItem('userid'));
 
     this.newSale.transactedProducts = [];
-    this.foundProduct.brand = new Brand();
-    this.foundProduct.category = new Category();
-    this.foundProduct.supplier = new Supplier();
   }
 
 
@@ -165,6 +171,7 @@ export class SaleComponent implements OnInit {
       header: 'Konfirmo',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
+        debugger
 
 
         if (this.newSale.discountType == DiscountType.percentage) {
@@ -194,6 +201,7 @@ export class SaleComponent implements OnInit {
           this.newSale = res;
           if (this.doPrint) this.transactionPrint(this.newSale);
           this.newSale = new Transaction();
+          this.initSale();
           this.newSale.transactedProducts = [];
           this.messageService.add({ severity: 'success', summary: 'Sukses', detail: 'Shitja u krye me sukses' })
         },

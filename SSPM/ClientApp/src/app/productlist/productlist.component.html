@@ -8,7 +8,7 @@
           <div class="ui-g-2 ui-sm-12">
             <span class="ui-float-label">
               <input #newProductModel="ngModel" [(ngModel)]="newProduct.barcode" name="newProductBarcode" type="text"
-                pInputText required (keyup.enter)="onNewProductSave()">
+                pInputText (keyup.enter)="onNewProductSave()">
               <label for="newProductBarcode">Barkodi</label>
             </span>
           </div>
