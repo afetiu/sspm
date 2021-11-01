@@ -47,7 +47,8 @@ namespace SSPM
             services.AddScoped<BloggingContext>();
             services.AddScoped<Utilities>();
 
-            services.AddMvc().AddNewtonsoftJson(options => {
+            services.AddMvc().AddNewtonsoftJson(options =>
+            {
                 options.SerializerSettings.ReferenceLoopHandling =
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
@@ -71,8 +72,10 @@ namespace SSPM
                 app.UseExceptionHandler("/Error");
             }
 
-            //bloggingContext.Database.Migrate();
-
+            if (Configuration.GetValue<bool>("ApplyMigrations") == true)
+            {
+                bloggingContext.Database.Migrate();
+            }  
 
             app.UseCors("AllowAll");
             app.UseAuthentication();

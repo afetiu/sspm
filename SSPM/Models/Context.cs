@@ -76,11 +76,11 @@ namespace SSPM_API.Models
         public int Id { get; set; }
         public string Model { get; set; }
         public string Barcode { get; set; }
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
         public virtual Brand Brand { get; set; }
-        public int SupplierId { get; set; }
+        public int? SupplierId { get; set; }
         public virtual Supplier Supplier { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public double SupplyPrice { get; set; }
         public double SalePrice { get; set; }

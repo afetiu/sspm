@@ -60,12 +60,12 @@ namespace SSPM_API.Controllers
         {
             try
             {
-                var existingProduct = db.Products.Where(a => a.Barcode == model.Barcode).FirstOrDefault();
+                //var existingProduct = db.Products.Where(a => a.Barcode == model.Barcode).FirstOrDefault();
 
-                if (existingProduct != null)
-                {
-                    return BadRequest("Ky barkod ekziston");
-                }
+                //if (existingProduct != null)
+                //{
+                //    return BadRequest("Ky barkod ekziston");
+                //}
 
                 Product newProduct = new Product();
                 newProduct.Barcode = model.Barcode;

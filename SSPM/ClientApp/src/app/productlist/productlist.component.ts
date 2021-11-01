@@ -125,11 +125,12 @@ export class ProductlistComponent implements OnInit {
   onNewProductSave() {
 
     if (this.newProduct.model != null &&
-      this.newProduct.brandId != null &&
-      this.newProduct.supplierId != null &&
-      this.newProduct.categoryId != null &&
+      // this.newProduct.brandId != null &&
+      // this.newProduct.supplierId != null &&
+      // this.newProduct.categoryId != null &&
       this.newProduct.salePrice != null &&
-      this.newProduct.quantity != null) {
+      this.newProduct.quantity != null
+      ) {
 
         this.newProduct.userId = parseInt(localStorage.getItem('userid'));
 

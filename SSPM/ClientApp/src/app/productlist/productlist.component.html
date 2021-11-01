@@ -22,26 +22,26 @@
           <div class="ui-g-2 ui-sm-12">
             <p-dropdown [showClear]="true" [style]="{'width':'100%'}" [options]="brandSelectItemList"
               placeholder="Firma" #newProductBrand="ngModel" name="newProductBrand" [(ngModel)]="newProduct.brandId"
-              required></p-dropdown>
+              ></p-dropdown>
           </div>
 
           <div class="ui-g-2 ui-sm-12">
             <p-dropdown [showClear]="true" [style]="{'width':'100%'}" [options]="supplierSelectItemList"
               placeholder="Furnizuesi" #newProductSupplier="ngModel" name="newProductSupplier"
-              [(ngModel)]="newProduct.supplierId" required></p-dropdown>
+              [(ngModel)]="newProduct.supplierId" ></p-dropdown>
           </div>
 
           <div class="ui-g-2 ui-sm-12">
             <p-dropdown [showClear]="true" [style]="{'width':'100%'}" [options]="categorySelectItemList"
               placeholder="Kategoria" #newProductCategory="ngModel" name="newProductCategory"
-              [(ngModel)]="newProduct.categoryId" required></p-dropdown>
+              [(ngModel)]="newProduct.categoryId" ></p-dropdown>
           </div>
 
 
           <div class="ui-g-2 ui-sm-12">
             <span class="ui-float-label">
               <input #newProductQuantity="ngModel" [(ngModel)]="newProduct.quantity" name="newProductQuantity"
-                type="text" pInputText required (keyup.enter)="onNewProductSave()">
+                type="text" required pInputText  (keyup.enter)="onNewProductSave()">
               <label for="newProductQuantity">Sasia</label>
             </span>
           </div>
