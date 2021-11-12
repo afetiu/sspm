@@ -68,6 +68,14 @@ export class ProductService {
     return this.http.get(this.configService.getBaserUrl() + 'product/getproduct/'+ model);
   }
 
+  getProductsByModel(model: string){
+    return this.http.get(this.configService.getBaserUrl() + 'product/getproducts/'+ model);
+  }
+
+  getAll(){
+    return this.http.get(this.configService.getBaserUrl() + 'product/getALLproducts/');
+  }
+
   getProductByBarcode(barcode: string){
     return this.http.get(this.configService.getBaserUrl() + 'product/getproductbybarcode/'+ barcode);
   }

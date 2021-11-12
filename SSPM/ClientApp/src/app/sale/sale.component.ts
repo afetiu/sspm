@@ -26,6 +26,9 @@ export class SaleComponent implements OnInit {
   discountType: SelectedItem[] = [];
   transactedProducts: TransactedProduct[] = [];
   doPrint = false;
+  foundProducts = [];
+  modelSearch = '';
+
 
   constructor(
     private messageService: MessageService,
@@ -58,7 +61,11 @@ export class SaleComponent implements OnInit {
     this.foundProduct.supplier = new Supplier();
   }
 
-  initSale(){
+  onSearch(event) {
+
+  }
+
+  initSale() {
     this.newSale.discountType = 1;
     this.newSale.totalPrice = 0;
     this.newSale.initialPrice = 0;
@@ -69,39 +76,45 @@ export class SaleComponent implements OnInit {
   }
 
 
-  onProdSearch() {
-
-    this.getProduct().subscribe((res: Product) => {
-      this.foundProduct = res;
-      this.newTransactedProduct.model = res.model;
-      this.newTransactedProduct.barcode = res.barcode;
-      this.newTransactedProduct.transactionPrice = res.salePrice;
-      this.newTransactedProduct.transactionQuantity = 1;
-      // this.foundProduct
-    }, err => {
-      this.messageService.add({ severity: 'error', summary: 'Gabim', detail: JSON.stringify(err.error) })
-
-    })
+  onProductSelect(value) {
+    this.foundProduct = value;
+    this.newTransactedProduct.model = value.model;
+    this.newTransactedProduct.barcode = value.barcode;
+    this.newTransactedProduct.transactionPrice = value.salePrice;
+    this.newTransactedProduct.transactionQuantity = 1;
   }
 
-  getProduct() {
-    if (this.newTransactedProduct.barcode) {
-      return this.productService.getProductByBarcode(this.newTransactedProduct.barcode);
-    }
-    else if ((this.newTransactedProduct.barcode == null || this.newTransactedProduct.barcode == "") && this.newTransactedProduct.model) {
-      return this.productService.getProductByModel(this.newTransactedProduct.model);
+  onProdSearch(event) {
+    if(event.query){
+       this.productService.getProductsByModel(event.query)
+      .subscribe((res: Product[]) => {
+        this.foundProducts = res;
+      }, err => {
+        this.messageService.add({ severity: 'error', summary: 'Gabim', detail: JSON.stringify(err.error) })
 
-    }
-  }
-
-  handleEnter() {
-    if (this.newTransactedProduct.transactionPrice) {
-      this.onAddToList();
+      })
     }
     else {
-      this.onProdSearch();
+      this.productService.getAll()
+      .subscribe((res: Product[]) => {
+        this.foundProducts = res;
+      }, err => {
+        this.messageService.add({ severity: 'error', summary: 'Gabim', detail: JSON.stringify(err.error) })
+
+      })
     }
+
+
   }
+
+  // handleEnter() {
+  //   if (this.newTransactedProduct.transactionPrice) {
+  //     this.onAddToList();
+  //   }
+  //   else {
+  //     this.onProdSearch();
+  //   }
+  // }
 
 
   onAddToList() {
@@ -113,48 +126,48 @@ export class SaleComponent implements OnInit {
       return;
     }
 
-    this.getProduct().subscribe((res: Product) => {
+    const res = this.foundProduct;
 
-      this.newTransactedProduct.model = res.model;
-      this.newTransactedProduct.barcode = res.barcode;
-      this.newTransactedProduct.brand = res.brand;
-      this.newTransactedProduct.brandId = res.brandId;
-      this.newTransactedProduct.category = res.category;
-      this.newTransactedProduct.categoryId = res.categoryId;
-      this.newTransactedProduct.supplier = res.supplier;
-      this.newTransactedProduct.supplierId = res.supplierId;
-      this.newTransactedProduct.description = res.description;
-      this.newTransactedProduct.transactionPrice = res.salePrice;
+    this.newTransactedProduct.model = res.model;
+    this.newTransactedProduct.barcode = res.barcode;
+    this.newTransactedProduct.brand = res.brand;
+    this.newTransactedProduct.brandId = res.brandId;
+    this.newTransactedProduct.category = res.category;
+    this.newTransactedProduct.categoryId = res.categoryId;
+    this.newTransactedProduct.supplier = res.supplier;
+    this.newTransactedProduct.supplierId = res.supplierId;
+    this.newTransactedProduct.description = res.description;
+    this.newTransactedProduct.transactionPrice = res.salePrice;
 
-      if (this.newTransactedProduct.transactionQuantity > res.quantity) {
-        this.messageService.add({ severity: 'error', summary: 'Gabim', detail: 'Nuk ka sasi te mjaftueshme' })
-        return;
-      }
+    if (this.newTransactedProduct.transactionQuantity > res.quantity) {
+      this.messageService.add({ severity: 'error', summary: 'Gabim', detail: 'Nuk ka sasi te mjaftueshme' })
+      return;
+    }
 
-      var alreadyInList = this.newSale.transactedProducts.find(x => x.barcode == this.newTransactedProduct.barcode);
+    var alreadyInList = this.newSale.transactedProducts.find(x => x.barcode == this.newTransactedProduct.barcode);
 
-      if (alreadyInList) {
-        this.messageService.add({ severity: 'error', summary: 'Gabim', detail: 'Ky produkt eshte ne liste ' })
-        return;
-      }
+    if (alreadyInList) {
+      this.messageService.add({ severity: 'error', summary: 'Gabim', detail: 'Ky produkt eshte ne liste ' })
+      return;
+    }
 
-      this.newSale.transactedProducts.push(this.newTransactedProduct);
-      this.transactedProducts.push(this.newTransactedProduct);
-
-
-      this.newSale.initialPrice = this.newSale.initialPrice + (this.newTransactedProduct.transactionPrice * this.newTransactedProduct.transactionQuantity);
-      this.addDiscount()
-      this.newTransactedProduct = new TransactedProduct();
-      this.foundProduct = new Product();
+    this.newSale.transactedProducts.push(this.newTransactedProduct);
+    this.transactedProducts.push(this.newTransactedProduct);
 
 
+    this.newSale.initialPrice = this.newSale.initialPrice + (this.newTransactedProduct.transactionPrice * this.newTransactedProduct.transactionQuantity);
+    this.addDiscount()
+    this.newTransactedProduct = new TransactedProduct();
+    this.foundProduct = new Product();
 
-    }, err => {
-      this.messageService.add({ severity: 'error', summary: 'Gabim', detail: JSON.stringify(err.error) })
-      this.newTransactedProduct = new TransactedProduct();
-      this.foundProduct = new Product();
 
-    })
+
+    // }, err => {
+    //   this.messageService.add({ severity: 'error', summary: 'Gabim', detail: JSON.stringify(err.error) })
+    //   this.newTransactedProduct = new TransactedProduct();
+    //   this.foundProduct = new Product();
+
+    // })
   }
 
   onRemoveFromList(index) {

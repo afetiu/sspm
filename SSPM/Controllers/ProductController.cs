@@ -25,7 +25,7 @@ namespace SSPM_API.Controllers
 
         [HttpPost]
         [Route("product/all")]
-        public IActionResult GetAllProducts([FromBody]Filter filter)
+        public IActionResult GetAllProducts([FromBody] Filter filter)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace SSPM_API.Controllers
                     .GetAllFiltered(filter);
                 int count = db.Products.Where(a => a.Active).GetAllFilteredCount(filter);
 
-                 
+
 
                 result.Data = allProducts;
                 result.Count = count;
@@ -56,7 +56,7 @@ namespace SSPM_API.Controllers
 
         [HttpPost]
         [Route("product/addnewproduct")]
-        public IActionResult AddNewProduct([FromBody]Product model)
+        public IActionResult AddNewProduct([FromBody] Product model)
         {
             try
             {
@@ -78,8 +78,8 @@ namespace SSPM_API.Controllers
                 newProduct.Supplier = db.Suppliers.Where(a => a.Active && a.Id == model.SupplierId).FirstOrDefault();
                 newProduct.User = db.Users.Where(a => a.Active && a.Id == model.UserId).FirstOrDefault();
                 newProduct.Description = model.Description;
-                newProduct.DateInserted =DateTime.Now;
-                newProduct.DateUpdated =DateTime.Now; 
+                newProduct.DateInserted = DateTime.Now;
+                newProduct.DateUpdated = DateTime.Now;
                 newProduct.Active = true;
 
                 db.Products.Add(newProduct);
@@ -95,8 +95,8 @@ namespace SSPM_API.Controllers
                     InitialPrice = model.SupplyPrice * model.Quantity,
                     TotalPrice = model.SupplyPrice * model.Quantity,
                     Discount = 0,
-                    TotalQuantity = model.Quantity, 
-                    UserId = newProduct.User.Id,  
+                    TotalQuantity = model.Quantity,
+                    UserId = newProduct.User.Id,
 
                 };
 
@@ -108,7 +108,7 @@ namespace SSPM_API.Controllers
                 newTransactedProduct.Model = model.Model;
                 newTransactedProduct.Brand = db.Brands.Where(a => a.Active && a.Id == model.BrandId).FirstOrDefault();
                 newTransactedProduct.Category = db.Categories.Where(a => a.Active && a.Id == model.CategoryId).FirstOrDefault();
-                newTransactedProduct.Supplier = db.Suppliers.Where(a => a.Active && a.Id == model.SupplierId).FirstOrDefault(); 
+                newTransactedProduct.Supplier = db.Suppliers.Where(a => a.Active && a.Id == model.SupplierId).FirstOrDefault();
                 newTransactedProduct.Description = model.Description;
                 newTransactedProduct.DateInserted = DateTime.Now;
                 newTransactedProduct.DateUpdated = DateTime.Now;
@@ -117,9 +117,9 @@ namespace SSPM_API.Controllers
                 newTransaction.TransactedProducts = new List<TransactedProduct>();
                 newTransaction.TransactedProducts.Add(newTransactedProduct);
                 db.TransactedProducts.Add(newTransactedProduct);
-                db.Transactions.Add(newTransaction);  
+                db.Transactions.Add(newTransaction);
                 db.SaveChanges();
-                
+
                 return Ok(newProduct);
             }
 
@@ -127,8 +127,8 @@ namespace SSPM_API.Controllers
             catch (Exception err)
             {
                 utility.AddLog("ProductController", "POST", err, "api/product/addnewproduct");
-                return BadRequest(err.Message); 
-            } 
+                return BadRequest(err.Message);
+            }
         }
 
         [HttpDelete]
@@ -154,7 +154,7 @@ namespace SSPM_API.Controllers
             {
                 utility.AddLog("ProductController", "HttpDelete", err, "api/product/deleteproduct/{id}");
                 return BadRequest(err.Message);
-                 
+
             }
 
         }
@@ -198,7 +198,7 @@ namespace SSPM_API.Controllers
             try
             {
                 Product product = db.Products
-              .Include(a => a.Brand) 
+              .Include(a => a.Brand)
               .Include(a => a.Supplier)
               .Include(a => a.Category)
               .FirstOrDefault(a => a.Active && a.Model == model);
@@ -207,7 +207,7 @@ namespace SSPM_API.Controllers
                 {
                     return BadRequest("Nuk eshte gjetur ky produkt");
                 }
-  
+
 
                 return Ok(product);
             }
@@ -217,7 +217,52 @@ namespace SSPM_API.Controllers
                 return BadRequest(err.Message);
 
 
-            } 
+            }
+        }
+
+        [HttpGet]
+        [Route("product/getproducts/{model}")]
+        public IActionResult GetProductsByModel(string model)
+        {
+            try
+            {
+                List<Product> products = db.Products
+              .Include(a => a.Brand)
+              .Include(a => a.Supplier)
+              .Include(a => a.Category)
+              .Where(a => a.Active && a.Model.Contains(model)).ToList();
+
+                return Ok(products);
+            }
+            catch (Exception err)
+            {
+                utility.AddLog("ProductController", "HttpGet", err, "api/product/selectitem/productmodels");
+                return BadRequest(err.Message);
+
+
+            }
+        }
+
+        [HttpGet]
+        [Route("product/getallproducts")]
+        public IActionResult GetAllProducts()
+        {
+            try
+            {
+                List<Product> products = db.Products
+              .Include(a => a.Brand)
+              .Include(a => a.Supplier)
+              .Include(a => a.Category).ToList();
+
+                return Ok(products);
+            }
+            catch (Exception err)
+            {
+                utility.AddLog("ProductController", "HttpGet", err, "api/product/selectitem/productmodels");
+                return BadRequest(err.Message);
+
+
+            }
         }
 
         [HttpGet]
@@ -228,7 +273,7 @@ namespace SSPM_API.Controllers
             {
                 Product product = db.Products
               .Include(a => a.Brand)
-              .Include(a => a.Supplier) 
+              .Include(a => a.Supplier)
               .Include(a => a.Category)
               .FirstOrDefault(a => a.Active && a.Barcode == barcode);
 
