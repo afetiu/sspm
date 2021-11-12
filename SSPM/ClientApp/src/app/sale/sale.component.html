@@ -16,22 +16,22 @@
           </h4>
         </div>
 
-            <div class="ui-g-12">
+        <div class="ui-g-12">
 
-              <p-card class="ui-g-3">
-                Numri i produkteve <span class="infoNumber"> {{newSale.transactedProducts.length}} </span>
-              </p-card>
-              <p-card class="ui-g-3">
-                Cmimi Total <span class="infoNumber"> {{newSale.initialPrice | number:'1.0-2'}} € </span>
-              </p-card>
-              <p-card class="ui-g-3">
-                Zbritje
-                <span class="infoNumber" *ngIf="newSale.discountType == 1"> {{newSale.discount}} % </span>
-                <span class="infoNumber" *ngIf="newSale.discountType == 2"> {{newSale.discount}} € </span>
-              </p-card>
-              <p-card class="ui-g-3">
-                Cmimi pas zbritjes <span class="infoNumber"> {{newSale.totalPrice | number:'1.0-2'}} € </span>
-              </p-card>
+          <p-card class="ui-g-3">
+            Numri i produkteve <span class="infoNumber"> {{newSale.transactedProducts.length}} </span>
+          </p-card>
+          <p-card class="ui-g-3">
+            Cmimi Total <span class="infoNumber"> {{newSale.initialPrice | number:'1.0-2'}} € </span>
+          </p-card>
+          <p-card class="ui-g-3">
+            Zbritje
+            <span class="infoNumber" *ngIf="newSale.discountType == 1"> {{newSale.discount}} % </span>
+            <span class="infoNumber" *ngIf="newSale.discountType == 2"> {{newSale.discount}} € </span>
+          </p-card>
+          <p-card class="ui-g-3">
+            Cmimi pas zbritjes <span class="infoNumber"> {{newSale.totalPrice | number:'1.0-2'}} € </span>
+          </p-card>
 
         </div>
       </div>
@@ -74,24 +74,27 @@
             <div class="ui-g-8 ui-sm-12">
               <!-- <span class=" ui-inputgroup"> -->
 
-                <!-- <p-dropdown  [editable]="true" #searchProductModel [showClear]="true" [style]="{'width':'100%'}" [options]="foundProducts"
+              <!-- <p-dropdown  [editable]="true" #searchProductModel [showClear]="true" [style]="{'width':'100%'}" [options]="foundProducts"
                 placeholder="Firma" #newProductBrand="ngModel" name="newProductBrand" [(ngModel)]="newTransactedProduct.model"
                 ></p-dropdown> -->
 
-                <p-autoComplete placeholder="Modeli" [dropdown]="true" [style]="{'width':'100%'}" #searchProductModel [(ngModel)]="modelSearch" [suggestions]="foundProducts" (completeMethod)="onProdSearch($event)" field="model" (onSelect)="onProductSelect($event)"></p-autoComplete>
+              <p-autoComplete placeholder="Modeli" [dropdown]="true" #searchProductModel [(ngModel)]="modelSearch"
+                [suggestions]="foundProducts" (completeMethod)="onProdSearch($event)" field="model"
+                (onSelect)="onProductSelect($event)"></p-autoComplete>
 
 
 
-                <!-- <input style="width:100%" #searchProductModel="ngModel" [(ngModel)]="newTransactedProduct.model" name="newProductModel"
+              <!-- <input style="width:100%" #searchProductModel="ngModel" [(ngModel)]="newTransactedProduct.model" name="newProductModel"
                   type="text" pInputText required placeholder="Modeli" (keyup.enter)="handleEnter()"> -->
-                <!-- <button pButton type="button" (click)="onProdSearch()" icon="fa fa-search"
+              <!-- <button pButton type="button" (click)="onProdSearch()" icon="fa fa-search"
                   class="ui-button-warn"></button> -->
               <!-- </span> -->
             </div>
             <div class="ui-g-2 ui-sm-12">
               <span class="ui-float-label">
-                <input style="width:100%" #prodquantity="ngModel" (keyup.enter)="onAddToList()" [(ngModel)]="newTransactedProduct.transactionQuantity"
-                  name="prodquantity" type="number" min="1" pInputText required>
+                <input style="width:100%" #prodquantity="ngModel" (keyup.enter)="onAddToList()"
+                  [(ngModel)]="newTransactedProduct.transactionQuantity" name="prodquantity" type="number" min="1"
+                  pInputText required>
                 <label for="newProductDescription">Sasia</label>
               </span>
             </div>
@@ -104,8 +107,8 @@
         </div> -->
             <div class="ui-g-2 ui-sm-12">
               <button pButton type="button" [disabled]="(!searchProductModel.value)|| !prodquantity.valid"
-                style="width:100%;" class="ui-button-secondary" (click)="onAddToList()" label="Shto ne liste" icon="fa  fa-cart-plus"
-                iconPos="left"></button>
+                style="width:100%;" class="ui-button-secondary" (click)="onAddToList()" label="Shto ne liste"
+                icon="fa  fa-cart-plus" iconPos="left"></button>
             </div>
           </div>
         </div>
@@ -113,8 +116,9 @@
 
         <div class="ui-g-12 ui-sm-12">
 
-          <p-table [loading]="!newSale.transactedProducts" [responsive]="true" [totalRecords]="newSale.transactedProducts.length"
-            [paginator]="true" [rows]="10" [value]="newSale.transactedProducts">
+          <p-table [loading]="!newSale.transactedProducts" [responsive]="true"
+            [totalRecords]="newSale.transactedProducts.length" [paginator]="true" [rows]="10"
+            [value]="newSale.transactedProducts">
 
             <ng-template pTemplate="header">
               <tr>
@@ -184,14 +188,15 @@
 
         <div class="ui-g-3 ui-sm-112">
           <span class="ui-inputgroup">
-            <p-dropdown (onChange)="addDiscount()" [style]="{'width':'100%'}" [autoWidth]="false" class="tableFilterInput"
-              [options]="discountType" [(ngModel)]="newSale.discountType"></p-dropdown>
+            <p-dropdown (onChange)="addDiscount()" [style]="{'width':'100%'}" [autoWidth]="false"
+              class="tableFilterInput" [options]="discountType" [(ngModel)]="newSale.discountType"></p-dropdown>
           </span>
         </div>
 
         <div class="ui-g-3 ui-sm-112">
           <button pButton type="button" [disabled]="newSale.transactedProducts.length<1" style="width:100%;padding: 5px"
-            (click)="onSale()" label="Kompleto Shitjen" class="ui-button-primary" icon="fa fa-check" iconPos="right"></button>
+            (click)="onSale()" label="Kompleto Shitjen" class="ui-button-primary" icon="fa fa-check"
+            iconPos="right"></button>
         </div>
 
 
@@ -248,7 +253,7 @@
         <div *ngIf="!foundProduct.model" class="ui-g-12">
 
           Nuk eshte selektuar asnje produkt!
-              </div>
+        </div>
 
 
       </div>
