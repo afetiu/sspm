@@ -134,3 +134,7 @@ body > app-root > app-dashboard > mat-sidenav-container > mat-sidenav-content > 
 }
 
 
+body > app-root > app-dashboard > mat-sidenav-container > mat-sidenav-content > app-sale > div > div.ui-g-9.componentContainer > p-card > div > div > div > div > div:nth-child(2) > div > div.ui-g-8.ui-sm-12 > p-autocomplete > span{
+  width: 100% !important;
+
+}
