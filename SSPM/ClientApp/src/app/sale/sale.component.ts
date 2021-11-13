@@ -76,12 +76,17 @@ export class SaleComponent implements OnInit {
   }
 
 
-  onProductSelect(value) {
-    this.foundProduct = value;
-    this.newTransactedProduct.model = value.model;
-    this.newTransactedProduct.barcode = value.barcode;
-    this.newTransactedProduct.transactionPrice = value.salePrice;
-    this.newTransactedProduct.transactionQuantity = 1;
+  onProductSelect(selectedItem) {
+
+    this.productService.getProductById(selectedItem.value).subscribe((res: Product)=>{
+      this.foundProduct = res;
+      this.newTransactedProduct.model = res.model;
+      this.newTransactedProduct.barcode = res.barcode;
+      this.newTransactedProduct.transactionPrice = res.salePrice;
+      this.newTransactedProduct.transactionQuantity = 1;
+    })
+
+
   }
 
   onProdSearch(event) {

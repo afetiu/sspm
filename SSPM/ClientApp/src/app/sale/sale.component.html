@@ -79,7 +79,7 @@
                 ></p-dropdown> -->
 
               <p-autoComplete placeholder="Modeli" [dropdown]="true" #searchProductModel [(ngModel)]="modelSearch"
-                [suggestions]="foundProducts" (completeMethod)="onProdSearch($event)" field="model"
+                [suggestions]="foundProducts" (completeMethod)="onProdSearch($event)" field="label"
                 (onSelect)="onProductSelect($event)"></p-autoComplete>
 
 

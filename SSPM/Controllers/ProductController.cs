@@ -221,18 +221,53 @@ namespace SSPM_API.Controllers
         }
 
         [HttpGet]
+        [Route("product/getproductbyid/{id}")]
+        public IActionResult GetProductById(int id)
+        {
+            try
+            {
+                Product product = db.Products
+              .Include(a => a.Brand)
+              .Include(a => a.Supplier)
+              .Include(a => a.Category)
+              .FirstOrDefault(a => a.Active && a.Id == id);
+
+                if (product == null)
+                {
+                    return BadRequest("Nuk eshte gjetur ky produkt");
+                }
+
+
+                return Ok(product);
+            }
+            catch (Exception err)
+            {
+                utility.AddLog("ProductController", "HttpGet", err, "api/product/selectitem/productmodels");
+                return BadRequest(err.Message);
+
+
+            }
+        }
+
+        [HttpGet]
         [Route("product/getproducts/{model}")]
         public IActionResult GetProductsByModel(string model)
         {
             try
             {
-                List<Product> products = db.Products
-              .Include(a => a.Brand)
-              .Include(a => a.Supplier)
-              .Include(a => a.Category)
+                List<Product> products = db.Products 
               .Where(a => a.Active && a.Model.Contains(model)).ToList();
 
-                return Ok(products);
+                List<SelectedItem> list = new();
+
+                foreach (var item in products)
+                {
+                    list.Add(new SelectedItem { Label = item.Model, Value = item.Id });
+
+                }
+
+
+                return Ok(list);
             }
             catch (Exception err)
             {
@@ -249,12 +284,16 @@ namespace SSPM_API.Controllers
         {
             try
             {
-                List<Product> products = db.Products
-              .Include(a => a.Brand)
-              .Include(a => a.Supplier)
-              .Include(a => a.Category).ToList();
+                List<Product> products = db.Products.ToList();
 
-                return Ok(products);
+                List<SelectedItem> list = new();
+
+                foreach (var item in products)
+                {
+                    list.Add(new SelectedItem { Label = item.Model, Value = item.Id });
+
+                } 
+                return Ok(list); 
             }
             catch (Exception err)
             {

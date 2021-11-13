@@ -64,6 +64,10 @@ export class ProductService {
     });
   }
 
+  getProductById(id: number){
+    return this.http.get(this.configService.getBaserUrl() + 'product/getproductbyid/'+ id);
+  }
+
   getProductByModel(model: string){
     return this.http.get(this.configService.getBaserUrl() + 'product/getproduct/'+ model);
   }
